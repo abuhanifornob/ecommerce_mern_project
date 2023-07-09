@@ -2,9 +2,16 @@
 
 1.Course Plan
 2.Environment Setup
-3.Create Express server --->express
-4.HTTP request & response
-5.nodemon & morgan packges --->nodemon , morgan
+3.Create Express server --->express(npm init -y, install express)
+
+## lesson -4
+
+4.HTTP(hypertext tranfer protocol) request & response--->( Request--->http method/verbs:GET,PUT,DELETE,UPDATE. HTTP Headers:Content Type, Cookis. Body: Data. Response-->Status Code:200,404,500,400. HTTP Headers: Cookis. Body: JSON,HTML Code)
+
+## Lesson -5
+
+5.nodemon & morgan packges --->nodemon----( nodemon is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected ) , morgan----(morgan ar maddome clined side thake ja request pathabor tar kisu information amra dekte pabo. const morgan=require("morgan"); app.use(morgan("dev")))
+
 6.API testing with postman
 7.Middleware & type of Middleware
 8.Express Error handling Middleware --->body-parser
