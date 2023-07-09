@@ -27,11 +27,12 @@
 ## Lesson -7
 
 7.Middleware & type of Middleware
-'''javascript
-const mw = require('./my-middleware.js')
 
-app.use(mw({ option1: '1', option2: '2' }))
-'''
+```javascript
+const mw = require("./my-middleware.js");
+
+app.use(mw({ option1: "1", option2: "2" }));
+```
 
 ## Lesson -8
 
