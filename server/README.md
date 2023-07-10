@@ -16,6 +16,13 @@
 
 4.HTTP(hypertext tranfer protocol) request & response--->( Request--->http method/verbs:GET,PUT,DELETE,UPDATE. HTTP Headers:Content Type, Cookis. Body: Data. Response-->Status Code:200,404,500,400. HTTP Headers: Cookis. Body: JSON,HTML Code)
 
+Informational responses (100 – 199)
+Successful responses (200 – 299)
+Redirection messages (300 – 399)
+Client error responses (400 – 499)
+Server error responses (500 – 599)
+[HTTP response status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+
 ## Lesson -5
 
 5.nodemon & morgan packges --->nodemon----( nodemon is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected ) , morgan----(morgan ar maddome clined side thake ja request pathabor tar kisu information amra dekte pabo. const morgan=require("morgan"); app.use(morgan("dev")))
@@ -27,9 +34,12 @@
 ## Lesson -7
 
 7.Middleware & type of Middleware
-Middleware holo amon akta function jekhane 3ta parametter thake (req,res,next) . amara je route a middleware add korbo firsly oi middleware ar kaj complete hobe then oi route ar kaj hobe. Aber amara chaile req, ba reponse ar data change korte pabo Middleware function thake-
+Middleware holo amon akta function jekhane 3ta parametter thake (req,res,next) . amara je route a middleware add korbo firsly oi middleware ar kaj complete hobe then oi route ar kaj hobe. Aber amara chaile req, ba reponse ar data change korte pabo Middleware function thake-</d>
+
+Application level Middleware Sob route a kaj kore ..
 
 ```javascript
+app.use(morgan("dev"))  // Third-party middleware
 app.use(express.json()) // Express ar build in Middleware method use for parses incoming requests with JSON payloads.
 app.use(express.urlencoded({extended: true})) // Form ar data niea kaj korar jonnne ai middleware amara use korbo
 
@@ -41,7 +51,7 @@ const isLoggdin=(req,res,next)==>{
    }
    else{
       return res.status(401).json({
-           message:"Your are Unauthoruzet person . Please login if first"
+           message:"Your are Unauthorized person . Please login if first"
        })
    }
 }
@@ -58,7 +68,40 @@ Express Middleware Type and Details information is here- [Express Middleware](ht
 
 ## Lesson -8
 
-8.Express Error handling Middleware --->body-parser
+8.Express Error handling Middleware --->
+Body parser Middle ware use.
+Firsty Body Parser Packages Install..
+
+```bash
+npm i body-parser
+```
+
+```javascript
+const bodyParser = require("body-parser");
+app.use(bodyParser.json()) / app.use(bodyParser.urlencoded({ extended: true }));
+```
+
+# error Handaling
+
+firstly we are client side error handle then server side Error handle
+
+```javascript
+// cliend seide error handle.  here we are see 3 perameeters (req,res,next)
+app.use((req,res,next)==>{
+    res.status(404).json({
+        message:"route not found"
+    })
+    next();
+
+})
+
+// server side error handeling .. here 4 perameeters(error,req,res,next)
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
+
+```
 
 ## Lesson -9
 

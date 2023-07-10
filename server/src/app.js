@@ -22,7 +22,7 @@ app.use(cors());
 app.use(xssClean());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan("dev"));
+app.use(morgan("dev")); // third party Middleware
 // Apply the rate limiting middleware to all requests
 app.use(limiter);
 // Apply the rate limiting middleware to API calls only
