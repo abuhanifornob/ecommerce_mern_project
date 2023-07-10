@@ -81,7 +81,7 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json()) / app.use(bodyParser.urlencoded({ extended: true }));
 ```
 
-# error Handaling
+### error Handaling
 
 firstly we are client side error handle then server side Error handle
 
