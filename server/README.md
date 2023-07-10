@@ -27,12 +27,34 @@
 ## Lesson -7
 
 7.Middleware & type of Middleware
+Middleware holo amon akta function jekhane 3ta parametter thake (req,res,next) . amara je route a middleware add korbo firsly oi middleware ar kaj complete hobe then oi route ar kaj hobe. Aber amara chaile req, ba reponse ar data change korte pabo Middleware function thake-
 
 ```javascript
-const mw = require("./my-middleware.js");
+app.use(express.json()) // Express ar build in Middleware method use for parses incoming requests with JSON payloads.
+app.use(express.urlencoded({extended: true})) // Form ar data niea kaj korar jonnne ai middleware amara use korbo
 
-app.use(mw({ option1: "1", option2: "2" }));
+const isLoggdin=(req,res,next)==>{
+   const isLoggin=true;
+   if(isLoggin){
+    req.body.id=2001
+       next();
+   }
+   else{
+      return res.status(401).json({
+           message:"Your are Unauthoruzet person . Please login if first"
+       })
+   }
+}
+
+app.get("/users",isLoggdin,(req,res)==>{
+   res.status(2000).json({
+       message:"User information is "
+   })
+})
+
 ```
+
+Express Middleware Type and Details information is here- [Express Middleware](https://expressjs.com/en/guide/using-middleware.html)
 
 ## Lesson -8
 
