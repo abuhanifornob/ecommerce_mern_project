@@ -106,6 +106,7 @@ app.use((err, req, res, next) => {
 ## Lesson -9
 
 9.How to handle HTTP Errors --->
+
 HTTP_Errors Package Install
 
 ```bash
@@ -136,6 +137,49 @@ app.use((err, req, res, next) => {
 ## Lesson -10
 
 10.How to secure API --> xss-clean ,express-rate-limit
+Amader jekono API ke Secure korte hobe jate kore kono nirdisto time a akadik bar request korte na pare.
+ar fole kono program hack hote pare ba onno kono problem hote pare.
+
+### Firstly two Package Install
+
+xxs-clean Package
+
+```bash
+npm i xss
+```
+
+and express-rate-limit
+
+```bash
+npm i express-rate-limit
+```
+
+```javascript
+const xssClean = require("xss-clean");
+const rateLimit = require("express-rate-limit");
+// MiddleWare ar Thik Upore Bosabo ......becuse this is a  middleware
+// Then limiter  Create korbo
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minutes
+  max: 5, // Limit each IP to 5 requests per `window` (here, per 1 minutes)
+  message:
+    "Too many accounts created from this IP, please try again after 1 minuts",
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
+// Apply the rate limiting middleware to all requests
+app.use(limiter);
+
+// Apply the rate limiting middleware only call this API request
+app.get("/test", limiter, async (req, res) => {
+  res.status(200).send({
+    message: "Server  test is Running",
+  });
+});
+
+//
+```
 
 ## Lesson -11
 
