@@ -105,7 +105,33 @@ app.use((err, req, res, next) => {
 
 ## Lesson -9
 
-9.How to handle HTTP Errors --->http-errors
+9.How to handle HTTP Errors --->
+HTTP_Errors Package Install
+
+```bash
+npm i http-errors
+```
+
+Code
+
+```javascript
+const createError = require("http-errors"); // protome amra requare kore nibo
+// Cline Side Error Handle
+ app.use((req,res,next)==>{
+next(createError(404,"route not found"));
+
+})
+
+// Server Error Handaling
+app.use((err, req, res, next) => {
+   return res.status(err.status || 500).json({
+   success: false,
+    message: err.message,
+  });
+
+});
+
+```
 
 ## Lesson -10
 
