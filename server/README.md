@@ -185,6 +185,35 @@ app.get("/test", limiter, async (req, res) => {
 
 11.Environmnet Variable & Gitignore ---> dotenv, (.env,.gitignore)
 
+### .env and .gitignore
+
+First we will create .env and .gitignore file in server root folder
+.env ar vitore amra inportent file rakbo like... db password, db url, server port
+
+```javascript
+SERVER_PORT=5000
+DATA_BASE_URL=mongodb+srv://<DatabaseName>:<password>@cluster0.t90v0gz.mongodb.net/ecommerceMernDB2023
+```
+
+.env file ar data ke access korar jonne akta package install korte hobe
+
+```bash
+npm i dotenv
+```
+
+then jekhane .env ar data access korte jabo sekhane ake require korte hobe
+
+```javascript
+require("dotenv").config();
+const serverPort = process.env.SERVER_PORT || 5001;
+const mongodbURL = process.env.DATA_BASE_URL;
+module.exports = { serverPort, mongodbURL, userDefaultImagePath };
+```
+
+Noted: Sob secret data akta Secret.js file a .env file theke nibo then onno jekon jaigai use korbo
+
+.gitignore file ar vitore ja rakbo segula git hub a jabe na
+
 ## Lesson -12
 
 12.MVC(Model View Controler)
