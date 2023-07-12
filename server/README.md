@@ -136,7 +136,7 @@ app.use((err, req, res, next) => {
 
 ```
 
-## Lesson -10
+## Lesson -10 How to secure API
 
 10.How to secure API --> xss-clean ,express-rate-limit
 Amader jekono API ke Secure korte hobe jate kore kono nirdisto time a akadik bar request korte na pare.
@@ -183,7 +183,7 @@ app.get("/test", limiter, async (req, res) => {
 //
 ```
 
-## Lesson -11
+## Lesson -11 Environmnet Variable & Gitignore
 
 11.Environmnet Variable & Gitignore ---> dotenv, (.env,.gitignore)
 
@@ -368,7 +368,7 @@ dist
 
 ```
 
-## Lesson -12
+## Lesson -12 MVC file Structure
 
 12.MVC file Structure - (Model View Controler)
 
@@ -451,7 +451,7 @@ then app.js a giea amara ai router gula access korbo .
 app.use("/api/users", userRouter);
 ```
 
-## Lesson -13
+## Lesson -13 Connect to Databse
 
 13.Connect to Databse
 
@@ -495,7 +495,7 @@ app.listen(serverPort, async () => {
 });
 ```
 
-## Lesson -14
+## Lesson -14 Schema & Model
 
 14.Schema & Model--->
 
@@ -581,9 +581,112 @@ const User = model("Users", userSchema);
 module.exports = User;
 ```
 
-## Lesson -15
+## Lesson -15 create seed route for teasting
 
 15.create seed route for teasting
+
+### Dummay Data
+
+Firsty we create dummay. data.js file create in src folder then store dummy data ... like data is.
+
+```javascript
+const data = {
+  users: [
+    {
+      name: "John Doe",
+      email: "johndoe@example.com",
+      password: "pass123",
+      phone: "123-456-7890",
+      address: "123 Main St, City, State, Zip",
+      image: "puplic/images/users/defaultUser-1.jpg",
+    },
+    {
+      name: "Jane Smith",
+      email: "janesmith@example.com",
+      password: "pass123",
+      phone: "987-654-3210",
+      address: "456 Elm St, City, State, Zip",
+      image: "puplic/images/users/defaultUser-2.jpg",
+    },
+    {
+      name: "Michael Johnson",
+      email: "michaeljohnson@example.com",
+      password: "pass123",
+      phone: "555-123-4567",
+      address: "789 Oak St, City, State, Zip",
+      image: "puplic/images/users/defaultUser-3.jpg",
+    },
+    {
+      name: "Emily Wilson",
+      email: "emilywilson@example.com",
+      password: "pass123",
+      phone: "999-888-7777",
+      address: "321 Pine St, City, State, Zip",
+      image: "puplic/images/users/defaultUser.jpg",
+    },
+    {
+      name: "David Brown",
+      email: "davidbrown@example.com",
+      password: "pass123",
+      phone: "111-222-3333",
+      address: "654 Cedar St, City, State, Zip",
+      image: "puplic/images/users/defaultUser.jpg",
+    },
+  ],
+};
+
+module.exports = data;
+```
+
+then export data for outside access this data.
+
+### seedController Create
+
+akhon amara datagulake database a rakhar jonne akta controller korbo .. jaha mongose Schema model ar maddome amara data gula database a sotre korbo.
+
+```javascript
+const data = require("../data");
+const User = require("../models/userModel");
+
+const seedUser = async (req, res, next) => {
+  try {
+    // Deleting all existing Users
+    await User.deleteMany({});
+    // Insert new Users
+    const users = await User.insertMany(data.users);
+
+    return res.status(201).json(users); // status code 201 holo success code
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { seedUser };
+```
+
+when seedcontroller create success then create SeedRouter
+
+### seedRouter Create
+
+```javascript
+const express = require("express");
+const { seedUser } = require("../controllers/seedController");
+
+const seedRouter = express.Router(); // express ar router theke amara seedRouder create korlam
+
+seedRouter.get("/users", seedUser); // then create get route
+
+module.exports = seedRouter; //  export seed Route for other file theke excess korar jonne
+```
+
+seedRoter Create korar por amara atake app.js ar sathe connect kore dibo.
+
+```javascript
+app.use("/api/seed", seedRouter);
+```
+
+finaly amara jokhon amra http://localhost:5000/api/seed/users route call dibo
+tahole previous data delete hoew new dummay data add hobe.
 
 ## Lesson -16
 
