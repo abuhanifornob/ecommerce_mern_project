@@ -688,9 +688,57 @@ app.use("/api/seed", seedRouter);
 finaly amara jokhon amra http://localhost:5000/api/seed/users route call dibo
 tahole previous data delete hoew new dummay data add hobe.
 
-## Lesson -16
+## Lesson -16 Get/api/users
 
 16.Get/api/users -->isAdmin-->getAllusers-->Serch Bay->Name,email,and phone And alse not retrurn users Password with setup pagination functionality.
+
+```javascript
+const User = require("../models/userModel");
+const createError = require("http-errors");
+const getUsers = async (req, res, next) => {
+  try {
+    const search = req.query.search || " "; // this is Sercing parameter
+    const page = Number(req.query.page) || 1; //  page number for pagination section
+    const limit = Number(req.query.limit) || 1; // limit is how much number of users amara detece chaiteece
+
+    const searchRegExp = new RegExp(".*" + search + ".*", "i"); // ar maddomoe prothome and last a kono kisu thaleo segila ignore korbe and ata case insencetive
+
+    const filter = {
+      isAdmin: { $ne: true }, // ar maddome amara je user admin na tader k select korbe
+      // or operation ar maddome amra 3 field ar upor operetion chalete parbo
+      // name,email, phone je kono akter sathe match korlai pabo
+      $or: [
+        { name: { $regex: searchRegExp } },
+        { email: { $regex: searchRegExp } },
+        { phone: { $regex: searchRegExp } },
+      ],
+    };
+    const option = { password: 0 }; // password retrun korbe na
+
+    const users = await User.find(filter, option)
+      .limit(limit)
+      .skip((page - 1) * limit);
+
+    const count = await User.find(filter).countDocuments(); //  total match kora users ar number
+    if (!users) throw createError(404, "Users are not Founds"); // jodi kono match na kore then ai message show korbe
+
+    res.status(200).json({
+      message: "Users were are return", // maseage
+      users, // users
+      pagination: {
+        totalPages: Math.ceil(count / limit),
+        currentPage: page,
+        previousPage: page - 1 > 0 ? page - 1 : null,
+        nextPage: page + 1 <= Math.ceil(count / limit) ? page + 1 : null,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getUsers };
+```
 
 ## Lesson -17
 
