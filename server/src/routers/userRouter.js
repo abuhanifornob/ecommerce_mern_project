@@ -1,16 +1,16 @@
 const express = require("express");
 const {
   getUsers,
-  getUser,
-  deleteUser,
+  getUserById,
+  deleteUserById,
 } = require("../controllers/userController");
 const userRouter = express.Router();
 
 //Get /api/users
 userRouter.get("/", getUsers);
-userRouter.get("/:id", getUser);
+userRouter.get("/:id", getUserById);
 
 // Delete /api/users
-userRouter.delete("/:id", deleteUser);
+userRouter.delete("/:id", deleteUserById);
 
 module.exports = userRouter;

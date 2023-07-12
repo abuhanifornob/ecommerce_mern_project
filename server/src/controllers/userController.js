@@ -50,11 +50,11 @@ const getUsers = async (req, res, next) => {
   }
 };
 
-const getUser = async (req, res, next) => {
+const getUserById = async (req, res, next) => {
   try {
     const option = { password: 0 };
     const id = req.params.id;
-    const user = await findWithId(id, option);
+    const user = await findWithId(User, id, option);
 
     if (!user) {
       throw createError(404, " Dos't exit with this id");
@@ -76,11 +76,11 @@ const getUser = async (req, res, next) => {
   }
 };
 
-const deleteUser = async (req, res, next) => {
+const deleteUserById = async (req, res, next) => {
   try {
     const id = req.params.id;
     const option = { password: 0 };
-    const user = await findWithId(id, option);
+    const user = await findWithId(User, id, option);
 
     // ................ Image remove form User Folder ...................
     const userImagePath = user.image;
@@ -108,4 +108,4 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-module.exports = { getUsers, getUser, deleteUser };
+module.exports = { getUsers, getUserById, deleteUserById };
