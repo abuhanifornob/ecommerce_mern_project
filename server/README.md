@@ -230,12 +230,73 @@ module.exports = User;
 
 #### Controllers
 
-```html
-<p>
-  Hello bnag <br />
-  hser <br />
-  hanif
-</p>
+Controller a sob Logic Thakbe like amar kata userController.js name file ace akhane user ar sob logic
+likhbo hote pare
+
+1. Amara ki vabe server theke sokol user pate pari .
+2. Amra user ar id diea kivabe oi user ke pate pari tar jonne logic likhbo
+3. Amra user k kivabe delete korbo ar jonne logic likhob
+
+##### then amra ai logic function gula exprt kore dibo
+
+```javascript
+const getUser = async (req, res, next) => {
+  try {
+    const option = { password: 0 };
+    const id = req.params.id;
+    // const option = { password: 0 };
+    // const user = await User.findById(id, option);
+    // if (!user) {
+    //   throw createError(404, "User does not exit wiht this id");
+    // }
+
+    const user = await findItemById(id, option);
+    return successResponse(res, {
+      statusCode: 200,
+      message: "User were return succefuly",
+      payloat: {
+        user,
+      },
+    });
+  } catch (error) {
+    // Mongose error Hanlde .....
+    // if (error instanceof mongoose.Error) {
+    //   next(createError(400, "Invalid User Id"));
+    //   return;
+    // }
+    next(error);
+  }
+};
+module.exports = { getUsers, getUser, deleteUser };
+```
+
+### routers
+
+routers ar vitore amara sokol route rakbo prothome amar userRouter.js name file kore sekhane user ar sokol router rakbo .. like code
+
+```javascript
+const express = require("express");
+const {
+  getUsers,
+  getUser,
+  deleteUser,
+} = require("../controllers/userController");
+const userRouter = express.Router();
+
+//Get /api/users
+userRouter.get("/", getUsers);
+userRouter.get("/:id", getUser);
+
+// Delete /api/users
+userRouter.delete("/:id", deleteUser);
+
+module.exports = userRouter;
+```
+
+then app.js a giea amara ai router gula access korbo .
+
+```javascript
+app.use("/api/users", userRouter);
 ```
 
 ## Lesson -13
