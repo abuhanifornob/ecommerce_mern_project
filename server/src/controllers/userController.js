@@ -2,14 +2,14 @@ const User = require("../models/userModel");
 const createError = require("http-errors");
 const mongoose = require("mongoose");
 const { successResponse } = require("./responseController");
-const { findItemById } = require("../services/findItem");
+const { findWithId } = require("../services/findItem");
 const fs = require("fs");
 
 const getUsers = async (req, res, next) => {
   try {
     const search = req.query.search || " "; // this is Sercing parameter
     const page = Number(req.query.page) || 1; //  page number for pagination section
-    const limit = Number(req.query.limit) || 1; // limit is how much number of users amara detece chaiteece
+    const limit = Number(req.query.limit) || 5; // limit is how much number of users amara detece chaiteece
 
     const searchRegExp = new RegExp(".*" + search + ".*", "i"); // ar maddomoe prothome and last a kono kisu thaleo segila ignore korbe and ata case insencetive
 
@@ -54,7 +54,7 @@ const getUser = async (req, res, next) => {
   try {
     const option = { password: 0 };
     const id = req.params.id;
-    const user = await findItemById(id, option);
+    const user = await findWithId(id, option);
 
     if (!user) {
       throw createError(404, " Dos't exit with this id");
@@ -80,31 +80,28 @@ const deleteUser = async (req, res, next) => {
   try {
     const id = req.params.id;
     const option = { password: 0 };
-    const user = await findItemById(id, option);
+    const user = await findWithId(id, option);
 
     // ................ Image remove form User Folder ...................
-    // const userImagePath = user.image;
-    // fs.access(userImagePath, (err) => {
-    //   if (err) {
-    //     console.error("user image Dosnot Exit");
-    //   } else {
-    //     fs.unlink(userImagePath, (err) => {
-    //       if (err) throw err;
-    //       console.log("User Image was Delete");
-    //     });
-    //   }
-    // });
+    const userImagePath = user.image;
+    fs.access(userImagePath, (err) => {
+      if (err) {
+        console.error("user image Dosnot Exit");
+      } else {
+        fs.unlink(userImagePath, (err) => {
+          if (err) throw err;
+          console.log("User Image was Delete");
+        });
+      }
+    });
 
-    const deleteUser = await User.findByIdAndDelete({
+    await User.findByIdAndDelete({
       _id: id,
       isAdmin: false,
     });
     return successResponse(res, {
       statusCode: 200,
       message: "User were Delete succefuly",
-      payloat: {
-        user,
-      },
     });
   } catch (error) {
     next(error);

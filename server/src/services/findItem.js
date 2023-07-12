@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const User = require("../models/userModel");
 const createError = require("http-errors");
 
-const findItemById = async (id, option) => {
+const findWithId = async (id, option = {}) => {
   try {
     const item = await User.findById(id, option);
     if (!item) {
@@ -10,11 +10,12 @@ const findItemById = async (id, option) => {
     }
     return item;
   } catch (error) {
+    // Mongoose error find
     if (error instanceof mongoose.Error) {
-      throw createError(400, "Invalid User Id");
+      throw createError(400, "Invalid Item Id");
     }
     throw error;
   }
 };
 
-module.exports = { findItemById };
+module.exports = { findWithId };

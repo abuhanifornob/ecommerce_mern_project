@@ -879,6 +879,51 @@ Then Controller a giea function ta call korlai hobe.
 const user = await findItemById(id, option);
 ```
 
-## Lesson -20
+## Lesson -20 DELETE/api/users/:id
 
 20.18.DELETE/api/users/:id --> Delete a single user by id with handle mongose error.
+
+### create delete user Function
+
+```javascript
+const deleteUser = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const option = { password: 0 };
+    const user = await findWithId(id, option);
+
+    // ................ Image remove form User Folder ...................
+    const userImagePath = user.image;
+    fs.access(userImagePath, (err) => {
+      if (err) {
+        console.error("user image Dosnot Exit");
+      } else {
+        fs.unlink(userImagePath, (err) => {
+          if (err) throw err;
+          console.log("User Image was Delete");
+        });
+      }
+    });
+
+    await User.findByIdAndDelete({
+      _id: id,
+      isAdmin: false,
+    });
+    return successResponse(res, {
+      statusCode: 200,
+      message: "User were Delete succefuly",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+```
+
+then amader rouder create korte hobe
+
+```javascript
+// Delete /api/users
+userRouter.delete("/:id", deleteUser);
+```
+
+then finaly ok
