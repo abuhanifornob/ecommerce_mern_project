@@ -228,6 +228,16 @@ Model a sob data thakbe .. Like models name akta folder thakbe then amar user ar
 tahole ami userModel.js name akta file kore user ar sokol data rekhe dibo den exports kore dibo .. like
 module.exports = User;
 
+#### Controllers
+
+```html
+<p>
+  Hello bnag <br />
+  hser <br />
+  hanif
+</p>
+```
+
 ## Lesson -13
 
 13.Connect to Databse
