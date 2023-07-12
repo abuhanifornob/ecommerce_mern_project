@@ -740,9 +740,66 @@ const getUsers = async (req, res, next) => {
 module.exports = { getUsers };
 ```
 
-## Lesson -17
+## Lesson -17 responseHandler
 
 17.responseHandler controller for errorResponse & successResponse
+
+### errorResponse & successResponse
+
+i.firstly controllers a responseController.js name akta file kore nibo then
+errorResponse and Success Response name 2ta function korbo ja dara amra response k handle korte pabo
+
+```javascript
+const errorResponse = (
+  res,
+  { statusCode = 500, message = "Internal Server Error" }
+) => {
+  return res.status(statusCode).json({
+    success: false,
+    message: message,
+  });
+};
+
+const successResponse = (
+  res,
+  { statusCode = 200, message = "Success", payloat = {} }
+) => {
+  return res.status(statusCode).json({
+    success: true,
+    message: message,
+    payloat,
+  });
+};
+module.exports = { errorResponse, successResponse };
+```
+
+then amara erro and success response call korbo .
+
+```javascript
+// Server Error Handaling
+app.use((err, req, res, next) => {
+  return errorResponse(res, {
+    statusCode: err.status,
+    message: err.message,
+  });
+});
+
+// sucees response a amara getusers ar data dibo
+
+return successResponse(res, {
+  statusCode: 200,
+  message: "Users were are return",
+  payloat: {
+    users,
+    pagination: {
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+      previousPage: page - 1 > 0 ? page - 1 : null,
+      nextPage: page + 1 <= Math.ceil(count / limit) ? page + 1 : null,
+    },
+  },
+});
+```
 
 ## Lesson -18
 
