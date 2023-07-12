@@ -814,7 +814,7 @@ const getUser = async (req, res, next) => {
   try {
     const option = { password: 0 };
     const id = req.params.id;
-    const user = await findItemById(id, option);
+    const user = await User.findById(id, option);
     if (!user) {
       throw createError(404, " Dos't exit with this id");
     }
@@ -842,9 +842,42 @@ params ar jonne route hobe
 userRouter.get("/:id", getUser);
 ```
 
-## Lesson -19
+## Lesson -19 How to create a services in the backend
 
 19.How to create a services in the backend
+
+service holo jekhane reuseable code gula akta function a rekhe bar bar use kora jai. ar jonne services name akta
+folder create kore then item find korar jonne akta function korbo jate kore id diea ai itenm ta find out korte pari.
+
+```javascript
+const mongoose = require("mongoose");
+const User = require("../models/userModel");
+const createError = require("http-errors");
+
+const findItemById = async (id, option) => {
+  try {
+    const item = await User.findById(id, option);
+    if (!item) {
+      throw createError(404, "User does not exit wiht this id");
+    }
+    return item;
+  } catch (error) {
+    // Mongoose error find
+    if (error instanceof mongoose.Error) {
+      throw createError(400, "Invalid User Id");
+    }
+    throw error;
+  }
+};
+
+module.exports = { findItemById };
+```
+
+Then Controller a giea function ta call korlai hobe.
+
+```javascript
+const user = await findItemById(id, option);
+```
 
 ## Lesson -20
 
