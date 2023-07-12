@@ -31,7 +31,7 @@ Server error responses (500 – 599)
 
 6.API testing with postman
 
-## Lesson -7
+## Lesson -7 Middleware & type of Middleware
 
 7.Middleware & type of Middleware
 Middleware holo amon akta function jekhane 3ta parametter thake (req,res,next) . amara je route a middleware add korbo firsly oi middleware ar kaj complete hobe then oi route ar kaj hobe. Aber amara chaile req, ba reponse ar data change korte pabo Middleware function thake-</d>
@@ -66,7 +66,7 @@ app.get("/users",isLoggdin,(req,res)==>{
 
 Express Middleware Type and Details information is here- [Express Middleware](https://expressjs.com/en/guide/using-middleware.html)
 
-## Lesson -8
+## Lesson -8 Express Error handling Middleware
 
 8.Express Error handling Middleware --->
 Body parser Middle ware use.
@@ -105,7 +105,7 @@ app.use((err, req, res, next) => {
 
 Noted: Server.js a only app ta run korabo . baki kaj amra app.js file a korbo.
 
-## Lesson -9
+## Lesson -9 How to handle HTTP Errors
 
 9.How to handle HTTP Errors --->
 
@@ -587,7 +587,7 @@ module.exports = User;
 
 ### Dummay Data
 
-Firsty we create dummay. data.js file create in src folder then store dummy data ... like data is.
+Firsty we create dummay data. data.js file create in src folder then store dummy data ... like data is.
 
 ```javascript
 const data = {
@@ -691,6 +691,10 @@ tahole previous data delete hoew new dummay data add hobe.
 ## Lesson -16 Get/api/users
 
 16.Get/api/users -->isAdmin-->getAllusers-->Serch Bay->Name,email,and phone And alse not retrurn users Password with setup pagination functionality.
+
+### search Queary holo --
+
+http://localhost:5000/api/users?search=Johnson avabe search korte hobe quary ar jonne
 
 ```javascript
 const User = require("../models/userModel");
@@ -801,9 +805,42 @@ return successResponse(res, {
 });
 ```
 
-## Lesson -18
+## Lesson -18 Get/api/users/:id --> get a single user by id with handle mongose error
 
 18.Get/api/users/:id --> get a single user by id with handle mongose error.
+
+```javascript
+const getUser = async (req, res, next) => {
+  try {
+    const option = { password: 0 };
+    const id = req.params.id;
+    const user = await findItemById(id, option);
+    if (!user) {
+      throw createError(404, " Dos't exit with this id");
+    }
+    return successResponse(res, {
+      statusCode: 200,
+      message: "User were return succefuly",
+      payloat: {
+        user,
+      },
+    });
+  } catch (error) {
+    // Mongose error Hanlde .....
+    if (error instanceof mongoose.Error) {
+      next(createError(400, "Invalid User Id"));
+      return;
+    }
+    next(error);
+  }
+};
+```
+
+params ar jonne route hobe
+
+```javascript
+userRouter.get("/:id", getUser);
+```
 
 ## Lesson -19
 
