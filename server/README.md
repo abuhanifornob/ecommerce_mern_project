@@ -103,6 +103,8 @@ app.use((err, req, res, next) => {
 
 ```
 
+Noted: Server.js a only app ta run korabo . baki kaj amra app.js file a korbo.
+
 ## Lesson -9
 
 9.How to handle HTTP Errors --->
@@ -216,7 +218,15 @@ Noted: Sob secret data akta Secret.js file a .env file theke nibo then onno jeko
 
 ## Lesson -12
 
-12.MVC(Model View Controler)
+12.MVC file Structure - (Model View Controler)
+
+### Model View controler
+
+#### Model
+
+Model a sob data thakbe .. Like models name akta folder thakbe then amar user ar kisu data thakbe
+tahole ami userModel.js name akta file kore user ar sokol data rekhe dibo den exports kore dibo .. like
+module.exports = User;
 
 ## Lesson -13
 
