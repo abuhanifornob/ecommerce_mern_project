@@ -303,6 +303,46 @@ app.use("/api/users", userRouter);
 
 13.Connect to Databse
 
+### Connect Database
+
+Database Connect ar joone amar mongoose package ta install korte hobe
+
+```bash
+npm i mongoose
+```
+
+then amara config name akta file create kore then bd.js ar connection ar sokol code rakthe pari
+
+```javascript
+const mongoose = require("mongoose");
+const { mongodbURL } = require("../secret");
+
+const connectDatabase = async (option = {}) => {
+  try {
+    await mongoose.connect(mongodbURL, option);
+    console.log("Connet to MongoDB Succesfully estabalis");
+
+    // Find out to connection error
+    mongoose.connection.on("error", (error) => {
+      console.error("Data Base Connection Error is: ", error);
+    });
+  } catch (error) {
+    console.error("Cantnot connet to DB", error.toString());
+  }
+};
+
+module.exports = connectDatabase;
+```
+
+then amar server.js server run hober pore connect kore dibo
+
+```javascript
+app.listen(serverPort, async () => {
+  console.log(`Server is running on http://localhost:${serverPort}`);
+  await connectDatabase();
+});
+```
+
 ## Lesson -14
 
 14.Schema & Model--->bcrypt install for password (incrypt and decrypt)
