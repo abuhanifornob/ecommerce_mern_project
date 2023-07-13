@@ -3,7 +3,8 @@ const createError = require("http-errors");
 const mongoose = require("mongoose");
 const { successResponse } = require("./responseController");
 const { findWithId } = require("../services/findItem");
-const fs = require("fs");
+const deleteImage = require("../helper/deleteimage");
+const fs = require("fs").promises;
 
 const getUsers = async (req, res, next) => {
   try {
@@ -84,16 +85,18 @@ const deleteUserById = async (req, res, next) => {
 
     // ................ Image remove form User Folder ...................
     const userImagePath = user.image;
-    fs.access(userImagePath, (err) => {
-      if (err) {
-        console.error("user image Dosnot Exit");
-      } else {
-        fs.unlink(userImagePath, (err) => {
-          if (err) throw err;
-          console.log("User Image was Delete");
-        });
-      }
-    });
+    deleteImage(userImagePath);
+
+    // fs.access(userImagePath, (err) => {
+    //   if (err) {
+    //     console.error("user image Dosnot Exit");
+    //   } else {
+    //     fs.unlink(userImagePath, (err) => {
+    //       if (err) throw err;
+    //       console.log("User Image was Delete");
+    //     });
+    //   }
+    // });
 
     await User.findByIdAndDelete({
       _id: id,
